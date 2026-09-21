@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TwinThrust — one thumb per engine</title>
+<meta name="description" content="A physics rocket lander for Android where each engine has its own thumb. 40 hand-crafted levels across 3 chapters. Every landing is earned. Free on Google Play.">
+<link rel="icon" href="media/icon_512.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TwinThrust — one thumb per engine">
+<meta property="og:description" content="40 hand-crafted physics levels across 3 chapters. Every landing is earned. Free on Google Play.">
+<meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
+<meta property="og:url" content="https://mawdlecode.github.io/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/"><img src="media/icon_512.png" alt=""> MawdleGames</a>
+  <a class="link" href="#mechanic">The&nbsp;mechanic</a>
+  <a class="link" href="#game">The&nbsp;game</a>
+  <a class="link" href="devlog/">Devlog</a>
+  <a class="link" href="presskit/">Press&nbsp;kit</a>
+</nav>
+
+<header class="hero wrap">
+  <h1>Twin<span class="t2">Thrust</span></h1>
+  <p class="tagline">One thumb per engine. Every landing is earned.</p>
+  <p class="subline">A 2D physics rocket lander for Android. Free.</p>
+
+  <div class="badges">
+    <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+      <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+    </a>
+    <a class="ghost" href="devlog/">Read the devlog &rarr;</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="strip">
+    <figure class="shot">
+      <video src="media/landing.mp4" autoplay loop muted playsinline preload="metadata" aria-label="A rocket touching down on a landing pad"></video>
+      <figcaption>Landing confirmed</figcaption>
+    </figure>
+    <figure class="shot">
+      <video src="media/rings.mp4" autoplay loop muted playsinline preload="metadata" aria-label="Flying through counter-rotating asteroid rings"></video>
+      <figcaption>Counter-rotating rings</figcaption>
+    </figure>
+    <figure class="shot">
+      <video src="media/rainbow.mp4" autoplay loop muted playsinline preload="metadata" aria-label="A rainbow cloud switch opening sliding gates"></video>
+      <figcaption>Switches and gates</figcaption>
+    </figure>
+    <figure class="shot">
+      <video src="media/crash.mp4" autoplay loop muted playsinline preload="metadata" aria-label="The rocket crashing into a bar"></video>
+      <figcaption>&hellip;and the other outcome</figcaption>
+    </figure>
+  </div>
+</div>
+
+<section id="mechanic" class="wrap">
+  <div class="split">
+    <div>
+      <h2>Two engines. <span class="accent">Two thumbs.</span></h2>
+      <p class="lede">
+        Most landers give you one throttle. TwinThrust gives you two — the left thumb drives
+        the left engine, the right thumb the right one, and nothing sits between you and gravity.
+      </p>
+      <p>
+        Feather one engine to lean into a turn. Slam both to kill a freefall. Hold a hover with
+        two uneven thumbs and you are doing real physics, not pressing a button. It takes about
+        ten seconds to understand and a lot longer than that to be good at.
+      </p>
+      <p>
+        There is no autopilot, no assist, and no procedural filler. Every one of the 40 levels was
+        built by hand around exactly one new idea.
+      </p>
+    </div>
+    <div class="media">
+      <video src="media/landing.mp4" autoplay loop muted playsinline preload="metadata" aria-label="A precise touchdown"></video>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section id="game" class="wrap">
+  <h2>Forty levels, three chapters, one idea each</h2>
+  <p class="lede">
+    From a first moonlit hop, out through laser gates and meteor showers and a gravity well, into a
+    burnt machine-world — and then into a forest that is aware you are flying through it.
+  </p>
+
+  <div class="grid">
+    <div class="card"><span class="num">40</span><h3>Hand-built levels</h3><p>Across three chapters. Each one introduces a single new mechanic and then asks you to use it.</p></div>
+    <div class="card warm"><span class="num">7&times;12&times;5</span><h3>Rocket Bay</h3><p>Seven rocket models, twelve colour schemes and five engine flame styles — three independent axes to make the craft yours.</p></div>
+    <div class="card good"><span class="num">3</span><h3>Difficulty ranks</h3><p>Fly as Cadet, Wingman or Pilot, and earn a star on every level for the rank you clear it at.</p></div>
+    <div class="card"><span class="num">0</span><h3>Energy timers</h3><p>No lives, no waits, no stamina bar. Short sessions, instant restarts, and your own best time to beat.</p></div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<section class="wrap">
+  <div class="split">
+    <div class="media">
+      <video src="media/rings.mp4" autoplay loop muted playsinline preload="metadata" aria-label="Asteroid rings around a planet"></video>
+    </div>
+    <div>
+      <h2>Built solo, in <span class="accent">Godot 4</span></h2>
+      <p class="lede">
+        One developer, no engine licence, and a test rig that flies the levels by itself.
+      </p>
+      <p>
+        The levels are verified by booting the real game and having an autopilot fly the craft
+        headless — which is the only reliable way to catch an invisible wall that no amount of
+        looking at the scene will show you.
+      </p>
+      <p>
+        The devlog is where the things that went wrong get written up properly: the one-line
+        physics bug that cost three weeks, the shader that was fine on one phone and blocky on
+        another, and the test rig that spent a week guarding a line of dialogue that had already
+        been deleted.
+      </p>
+      <p><a class="ghost" href="devlog/">Read the devlog &rarr;</a></p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="cta">
+    <h2>Land the impossible</h2>
+    <p class="lede" style="margin:0 auto 22px">Free on Google Play. No energy timers, no forced waits.</p>
+    <div class="badges">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <a href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">Google&nbsp;Play</a> ·
+      <a href="devlog/">Devlog</a> ·
+      <a href="presskit/">Press&nbsp;kit</a> ·
+      <a href="https://pixelpicked.com/game/1tFo1YnJRke/twinthrust">PixelPicked</a> ·
+      <a href="mailto:RichMawdsley@gmail.com">RichMawdsley@gmail.com</a>
+    </p>
+    <p>© MawdleGames. Made by Richard Mawdsley.</p>
+    <p>Music: &ldquo;Newer Wave&rdquo; Kevin MacLeod (<a href="https://incompetech.com">incompetech.com</a>) — licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+    <p>Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
+
+</body>
+</html>
