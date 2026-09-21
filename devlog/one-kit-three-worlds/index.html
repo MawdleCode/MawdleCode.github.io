@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>One kit, three worlds | TwinThrust devlog</title>
+<meta name="description" content="TwinThrust runs on about ten hazard scripts. Chapter 2 and Chapter 3 are mostly reskins of them. Here is how that works, why it is a design decision rather than a shortcut, and where it stops working.">
+<link rel="icon" href="../../media/icon_512.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="One kit, three worlds">
+<meta property="og:description" content="Three chapters that look nothing alike, built from the same ten hazard scripts. How the reskin discipline works, and where it stops working.">
+<meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/"><img src="../../media/icon_512.png" alt=""> MawdleGames</a>
+  <a class="link" href="../">Devlog</a>
+  <a class="link" href="/">TwinThrust</a>
+</nav>
+
+<div class="wrap">
+  <article class="article">
+    <p class="kicker" style="margin-top:30px">21 September 2026 · Design</p>
+    <h1 style="font-size:clamp(1.8rem,5.2vw,2.6rem); line-height:1.15; margin:.2em 0 .4em">
+      One kit, three worlds
+    </h1>
+    <p class="lede">
+      TwinThrust has three chapters that look nothing like each other: open space, a firelit
+      medieval realm, and a rain-soaked jungle. Almost all of it runs on the same ten hazard
+      scripts. That is not a shortcut I am embarrassed about. It is the reason the game can keep
+      getting harder without ever getting confusing.
+    </p>
+
+    <h2>The kit</h2>
+    <p>
+      Chapter 1 is 20 levels of open space, and building it produced a small set of hazard scripts:
+      meteors, a gravity well, rotating wreckage, a fly-through switch, a sliding gate, an ion
+      storm, orbit rings, a laser emitter, a lift, and a darkness veil. Ten things. Every level in
+      the chapter is an arrangement of those, plus geometry.
+    </p>
+    <p>
+      When I started Chapter 2 the obvious instinct was to write ten new ones. Medieval realm,
+      medieval hazards, fresh code. I am glad I did not, because the useful question turned out not
+      to be "what hazards does a castle have?" but "what does the player already know how to read?"
+    </p>
+
+    <h2>The same script, three costumes</h2>
+    <p>
+      Here is most of the game, laid out honestly:
+    </p>
+    <div style="overflow-x:auto">
+    <table class="reskin">
+      <thead>
+        <tr><th>Script</th><th>Chapter 1: space</th><th>Chapter 2: Ashmoor</th><th>Chapter 3: the Verdance</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>ion_storm</code></td><td>ion storm gusts</td><td>mountain gale</td><td>spore clouds</td></tr>
+        <tr><td><code>meteor</code></td><td>meteor shower</td><td>trebuchet boulders</td><td>rolling boulders</td></tr>
+        <tr><td><code>laser_emitter</code></td><td>laser gates</td><td>ballista bolts</td><td>blow-dart volleys</td></tr>
+        <tr><td><code>cloud_switch</code></td><td>rainbow cloud</td><td>signal-fire brazier</td><td>glyph idol</td></tr>
+        <tr><td><code>sliding_gate</code></td><td>sliding gate</td><td>portcullis</td><td>flytrap maw</td></tr>
+        <tr><td><code>rotating_wreck</code></td><td>tumbling wreckage</td><td>pendulum mace</td><td>swinging vine</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>
+      A player who learned in Chapter 1 that the rainbow cloud opens the gate walks into a castle,
+      sees a brazier and a portcullis, and knows what to do without being told. They have not
+      learned a new rule. They have learned that this world has its own word for a rule they
+      already own.
+    </p>
+    <p>
+      That is the whole return on the technique. Every chapter gets to look completely new while
+      costing the player nothing to read, which means the difficulty curve can carry on climbing
+      instead of resetting to zero at the start of each world.
+    </p>
+
+    <h2>What actually changes</h2>
+    <p>
+      The reskin is not a sprite swap, because there are almost no sprites. Everything is drawn in
+      code, so a realm is a set of drawing decisions:
+    </p>
+    <ul>
+      <li>
+        <strong>The sky</strong> is one shader with a realm uniform. Space, Ashmoor, the Verdance
+        and the fourth realm are four branches of the same file. The Verdance branch gets a canopy
+        gradient, a parallax leaf ceiling that lifts away as you climb, slanting gold shafts, humid
+        haze and rain.
+      </li>
+      <li>
+        <strong>The walls</strong> go through one call before a box is placed, which picks a skin.
+        Vine-wrapped temple stone gets mossy courses and winding leaf-vines; mud-hut timber gets
+        planks, lashing-rope bands and knots; a tribal totem gets carved bands of watching eyes in
+        ochre and teal. All deterministic per box, so a wall looks the same every time you fly past
+        it.
+      </li>
+      <li>
+        <strong>Everything ambient</strong> is automatic: ridge palettes, the world tint, the colour
+        of the floating dust. A level builder does not think about them.
+      </li>
+      <li>
+        <strong>The palettes are locked in one file.</strong> This matters more than it sounds.
+        Eyeballed hues across ten levels is how a realm ends up looking like nine realms.
+      </li>
+    </ul>
+
+    <h2>The rule that keeps it honest</h2>
+    <p>
+      A reskin has to be truthful about behaviour. The trebuchet boulders in the siege level arc,
+      and they arc because the meteor script already supported parabolic paths, not because I
+      decided medieval projectiles ought to look like that and then faked it.
+    </p>
+    <p>
+      That constraint is load-bearing. The moment a costume lies about what the thing underneath
+      does, the player's transferred knowledge becomes a trap, and you have spent the entire budget
+      of goodwill the technique earns you. If a boulder needs to behave in a way meteors cannot,
+      the answer is to extend the meteor script for both, or to build something new and admit it.
+    </p>
+
+    <h2>Where it stops working</h2>
+    <p>
+      I hit the limit hard on Chapter 4, and I only found it because I stopped reading the chapter
+      and measured it.
+    </p>
+    <p>
+      Every individual level was defensible. Each one reskinned something competently and had a
+      reason to exist. But laid end to end, a nine-level stretch turned out to be the same two
+      ideas over and over in different colours, and the chapter felt like nothing was happening
+      even though a great deal was.
+    </p>
+    <blockquote>
+      Reuse buys you a vocabulary, not a curve. A chapter still has to give each level its own
+      idea. If you only reskin, you have written a set of variations on a theme and called it a
+      campaign.
+    </blockquote>
+    <p>
+      The fix was not less reuse. It was going back through and making sure each level in that run
+      introduced one thing that was genuinely its own, on top of the shared kit. Which is the same
+      rule Chapter 1 had been following from the start, and which I had quietly stopped applying
+      the moment reskinning made levels cheap to produce.
+    </p>
+    <p>
+      That is the honest summary of the technique. It makes levels cheap, and cheap levels are
+      exactly the ones you forget to give an idea to.
+    </p>
+
+    <hr class="rule" style="margin:44px 0 30px">
+    <p style="color:var(--muted)">
+      TwinThrust is free on Android. 40 hand-built levels, three worlds, two thumbs.
+    </p>
+    <p class="badges" style="justify-content:flex-start">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+      </a>
+    </p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap center">
+    <p><a href="/">Home</a> &middot; <a href="../">Devlog</a> &middot; <a href="../../presskit/">Press kit</a> &middot; <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
+    <p>© MawdleGames. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
+
+</body>
+</html>

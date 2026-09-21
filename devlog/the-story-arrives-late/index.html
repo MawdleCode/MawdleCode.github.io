@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The story arrives at level eighteen | TwinThrust devlog</title>
+<meta name="description" content="TwinThrust started as a level pack with no story at all. The narrative was retrofitted at the end of Chapter 1, and it works because it reframes levels the player has already flown as an audition.">
+<link rel="icon" href="../../media/icon_512.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The story arrives at level eighteen">
+<meta property="og:description" content="How a level pack with no story grew one at the end of Chapter 1, without going back and rewriting a single earlier level.">
+<meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/"><img src="../../media/icon_512.png" alt=""> MawdleGames</a>
+  <a class="link" href="../">Devlog</a>
+  <a class="link" href="/">TwinThrust</a>
+</nav>
+
+<div class="wrap">
+  <article class="article">
+    <p class="kicker" style="margin-top:30px">21 September 2026 · Design</p>
+    <h1 style="font-size:clamp(1.8rem,5.2vw,2.6rem); line-height:1.15; margin:.2em 0 .4em">
+      The story arrives at level eighteen
+    </h1>
+    <p class="lede">
+      TwinThrust began as a physics game with no story in it whatsoever. Seventeen levels of
+      landing a rocket, and no reason for any of it. The story turned up near the end of Chapter 1,
+      and the useful part is that I did not have to go back and change a single earlier level to
+      make it land.
+    </p>
+
+    <h2>Seventeen levels of nothing but flying</h2>
+    <p>
+      The teaching arc of Chapter 1 is purely mechanical. Controls, then open flight, then vertical
+      gaps, a moving pad, an enclosed corridor, laser timing, a descent, darkness, timed gates,
+      debris, a gravity well, a force lift, a maze, a switch and gate, random gusts, layered
+      orbits, and a spiral. Seventeen levels, seventeen ideas, no plot.
+    </p>
+    <p>
+      I was happy with that and I would build it the same way again. But a game that is only a
+      difficulty curve has a specific problem: it has no reason to have chapters. It just has more
+      levels, and eventually the player asks what for.
+    </p>
+
+    <h2>The cheapest possible reframe</h2>
+    <p>
+      The answer I landed on costs almost nothing, and I think it is the most useful trick in the
+      whole project.
+    </p>
+    <blockquote>
+      The hazards were never random. They were a test, and you were being watched taking it.
+    </blockquote>
+    <p>
+      At level 18 a signal starts intruding on the HUD. At 19 the level presents itself as a trial
+      grid and signs off with "Pilot performance: evaluated. Candidate status: pending." At 20 the
+      thing doing the evaluating turns up, puts a beam through the roof, takes the craft, and says
+      there is much work to be done.
+    </p>
+    <p>
+      What that does, retroactively, is turn seventeen levels of unexplained escalating hazards into
+      an audition. The gravity well, the blackout, the storms, the orbital debris: those are the
+      exact skills you would test for if you were recruiting somebody to fly into foreign worlds
+      and bring something back. The player has already passed it. They just did not know it was
+      scored.
+    </p>
+    <p>
+      I did not write a word of new fiction into levels 1 through 17. I reinterpreted them.
+    </p>
+
+    <h2>Why late is better than early here</h2>
+    <p>
+      Had I opened on the story, every one of those levels would have had to carry it. Level 3 is a
+      lesson about vertical gaps. It is a good lesson. It would have been a worse one with a
+      character talking over it.
+    </p>
+    <p>
+      Arriving late also means the story's first job is to answer a question the player already has,
+      rather than to raise one they do not care about yet. By level 17 they have noticed the
+      hazards are escalating past anything natural. The reveal is a payoff, not an introduction.
+    </p>
+    <p>
+      The cost is that you get exactly one shot at it, and it has to be a spectacle. Level 20 is the
+      only level in the chapter that is more set-piece than test.
+    </p>
+
+    <h2>The machinery, which is smaller than it sounds</h2>
+    <p>
+      All of this runs through one reused HUD label and a timeline. A level declares a list of
+      beats against its own elapsed time, and the label renders them in one of two voices: an amber
+      navigational style for your own instruments, and a corrupt cyan-green style, jittered, with
+      the characters scrambled so they resolve toward clean text as the signal locks on.
+    </p>
+    <p>
+      That second style is doing a disproportionate amount of work. It says "something else is
+      talking to you" before a single word is legible, which means the reveal is atmospheric for
+      several levels before it is explicit.
+    </p>
+    <p>
+      Later chapters kept that system and added a second lane, because by then there are two
+      parties talking and the player needs to know instantly which one this is. Colour carries it.
+    </p>
+
+    <h2>The rule I keep relearning</h2>
+    <p>
+      One rule has survived every chapter since, and I have broken it more than once and paid for
+      it every time.
+    </p>
+    <blockquote>
+      Text and control never live at the same time.
+    </blockquote>
+    <p>
+      If the player is flying, they are not reading. If they are reading, do not also ask them to
+      fly. Every time a line of dialogue has landed while something dangerous was happening, the
+      result is that the player either missed the line or died, and both of those are my fault
+      rather than theirs.
+    </p>
+    <p>
+      The version of this I got wrong most recently was subtler. A later level lands, the screen
+      says the landing is confirmed, the fireworks go off, and a character is still mid-sentence
+      explaining what the chapter just cost. A screenful of celebration underneath somebody
+      delivering bad news reads as a bug. The fix was to make the celebration wait for him to
+      finish. The landing chime still plays on touchdown, because that is the craft confirming it is
+      down, but the game does not applaud until the scene is over.
+    </p>
+
+    <h2>What I would tell anyone bolting a story onto a finished thing</h2>
+    <p>
+      Do not go back and add narration to content that was built without it. Find the reading of
+      that content which makes it evidence for the story you want to tell, and then tell the story
+      at the point where the player is most likely to have that same suspicion already.
+    </p>
+    <p>
+      It is cheaper, it is more respectful of levels that were doing fine on their own, and it makes
+      the player feel like they worked it out rather than like they were told.
+    </p>
+
+    <hr class="rule" style="margin:44px 0 30px">
+    <p style="color:var(--muted)">
+      TwinThrust is free on Android. 40 hand-built levels across three chapters, with a fourth in
+      development.
+    </p>
+    <p class="badges" style="justify-content:flex-start">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+      </a>
+    </p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap center">
+    <p><a href="/">Home</a> &middot; <a href="../">Devlog</a> &middot; <a href="../../presskit/">Press kit</a> &middot; <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
+    <p>© MawdleGames. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
+
+</body>
+</html>

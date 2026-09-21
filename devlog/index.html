@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TwinThrust devlog</title>
-<meta name="description" content="Notes from building TwinThrust in Godot 4, the bugs, the test rigs, and the things that only go wrong on one phone.">
+<meta name="description" content="Notes on designing TwinThrust: how three chapters are built from one kit of scripts, and how a level pack grew a story.">
 <link rel="icon" href="../media/icon_512.png">
 <meta property="og:title" content="TwinThrust devlog">
-<meta property="og:description" content="Notes from building a physics rocket lander in Godot 4, the bugs, the test rigs, and the things that only go wrong on one phone.">
+<meta property="og:description" content="Notes on designing TwinThrust: how three chapters are built from one kit of scripts, and how a level pack grew a story.">
 <meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
 <link rel="stylesheet" href="../style.css">
 </head>
@@ -23,10 +23,10 @@
 <div class="wrap">
   <header class="hero" style="text-align:left; padding-bottom:10px">
     <p class="kicker">Devlog</p>
-    <h1 style="font-size:clamp(2.1rem,6vw,3.2rem)">What went wrong</h1>
-    <p class="tagline" style="max-width:52ch; margin-left:0">
-      Notes from building <a href="/" style="color:var(--cyan)">TwinThrust</a> in Godot 4, mostly
-      the bugs, because those are the parts worth writing down.
+    <h1 style="font-size:clamp(2.1rem,6vw,3.2rem)">How it is built</h1>
+    <p class="tagline" style="max-width:54ch; margin-left:0">
+      Notes on designing <a href="/" style="color:var(--cyan)">TwinThrust</a>: the decisions, the
+      ones that were wrong, and what three chapters have in common under the paint.
     </p>
   </header>
 </div>
@@ -34,24 +34,31 @@
 <section class="wrap" style="padding-top:10px">
   <ul class="posts">
     <li>
-      <a href="headless-autopilot/">
+      <a href="the-story-arrives-late/">
         <span class="meta">21 September 2026</span>
-        <h3>I fly my game headless to find invisible walls</h3>
-        <p>A robot flies every level before I do. It found a boost that had been producing flames and no speed for three weeks.</p>
+        <h3>The story arrives at level eighteen</h3>
+        <p>It began as a level pack with no plot at all. The fix was not to write a story into the levels, but to find the reading that made them evidence for one.</p>
+      </a>
+    </li>
+    <li>
+      <a href="one-kit-three-worlds/">
+        <span class="meta">21 September 2026</span>
+        <h3>One kit, three worlds</h3>
+        <p>Three chapters that look nothing alike, built from the same ten hazard scripts. Why that is a design decision rather than a shortcut, and where it stops working.</p>
       </a>
     </li>
   </ul>
 
   <p style="margin-top:30px; color:var(--muted)">
-    More coming: the shader that was fine on one phone and blocky on another, and the test rig that
-    spent a week guarding a line of dialogue that had already been deleted.
+    More coming: what a fuel gauge does to a level that was designed without one, and why every
+    level gets exactly one new idea.
   </p>
 </section>
 
 <footer>
-  <div class="wrap">
-    <p><a href="/">Home</a> · <a href="../presskit/">Press kit</a> · <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
-    <p>© MawdleGames.</p>
+  <div class="wrap center">
+    <p><a href="/">Home</a> &middot; <a href="../presskit/">Press kit</a> &middot; <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
+    <p>© MawdleGames</p>
   </div>
 </footer>
 
