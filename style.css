@@ -190,3 +190,24 @@ table.reskin tbody tr:hover { background: rgba(111,216,255,.03); }
 /* ---------- badges row ---------- */
 .badge-row { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 18px; }
 .badge-row img { display: block; border-radius: 8px; }
+
+/* ---------- spoiler warning ---------- */
+.spoiler {
+  border: 2px solid var(--orange);
+  border-radius: var(--radius);
+  background: rgba(255, 165, 82, .07);
+  padding: 20px 22px;
+  margin: 26px 0 34px;
+}
+.spoiler .spoiler-title {
+  margin: 0 0 8px;
+  font-size: clamp(1.25rem, 4vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.spoiler p { margin: 0 0 10px; color: #e2e7f3; max-width: none; }
+.spoiler p:last-child { margin-bottom: 0; }
+.spoiler .spoiler-out { font-weight: 600; }
+.spoiler a { color: var(--orange); }

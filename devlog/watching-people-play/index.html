@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I thought the tutorial was fine. Then I watched someone play it | TwinThrust devlog</title>
+<meta name="description" content="The first TwinThrust tutorial said use the two engines and go land the rocket. I was sure it was enough. Watching real people play it showed me they had no idea what they were doing, and that was my fault, not theirs.">
+<link rel="icon" href="../../media/icon_512.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I thought the tutorial was fine. Then I watched someone play it">
+<meta property="og:description" content="What is obvious to the person who built the game is not obvious to anybody else. Several tutorial rewrites, all of them prompted by watching a real person fly off into the abyss.">
+<meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
+<link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/"><img src="../../media/icon_512.png" alt=""> MawdleGames</a>
+  <a class="link" href="../">Devlog</a>
+  <a class="link" href="/">TwinThrust</a>
+</nav>
+
+<div class="wrap">
+  <article class="article">
+    <p class="kicker" style="margin-top:30px">21 September 2026 · Design</p>
+    <h1 style="font-size:clamp(1.8rem,5.2vw,2.6rem); line-height:1.15; margin:.2em 0 .4em">
+      I thought the tutorial was fine. Then I watched someone play it
+    </h1>
+    <p class="lede">
+      The first tutorial TwinThrust ever had told you that you have two engines, that the left and
+      right sides of the screen fire them, and that you should go and land on the pad. I built it, I
+      played it, and I was completely satisfied that it was enough. It was not even close.
+    </p>
+
+    <h2>The version I was happy with</h2>
+    <p>
+      It was one open pad, a couple of lines of text on screen, and a rocket you could fly the
+      instant the level loaded. Use the left engine, use the right engine, go and land. Job done.
+    </p>
+    <p>
+      It made complete sense to me. I had spent months in this game. I knew that a short tap on one
+      side tips you, that holding both sends you up fast, that the whole skill is in small
+      corrections. Reading my own tutorial, every line landed, because I already knew what it was
+      describing.
+    </p>
+    <p>
+      That is the trap, and I walked straight into it.
+    </p>
+
+    <h2>Then I sat someone in front of it</h2>
+    <p>
+      Watching a person who had never seen the game play that tutorial was uncomfortable in a very
+      specific way. They were not reading anything. They were staring at the rocket, because the
+      rocket was the moving thing and the only thing they actually wanted to touch. The instructions
+      were on screen the whole time and might as well not have been there.
+    </p>
+    <p>
+      And then they flew off. Not into a wall, which would at least have been a lesson. Straight up
+      and out into empty sky, holding both sides of the screen down, gone, with the pad somewhere far
+      below and no idea that any of this was going wrong.
+    </p>
+    <p>
+      My first instinct, which I am not proud of, was that they had not read it properly.
+    </p>
+    <blockquote>
+      If nobody reads your instructions, you did not write bad readers. You wrote bad instructions.
+    </blockquote>
+    <p>
+      They had done exactly what any normal person does with a new game: pressed the thing and
+      watched what happened. The tutorial had asked them to read and fly at the same time, and given
+      a choice between those two, everybody on earth picks flying. That was my fault. I had never
+      translated the game out of my own head and into something a stranger could pick up.
+    </p>
+
+    <h2>What changed</h2>
+    <p>
+      It took several goes, each one prompted by watching somebody else struggle with the last one.
+      The rule that came out of it is the one thing I would carry to any other game:
+    </p>
+    <blockquote>
+      Text and control are never live at the same time.
+    </blockquote>
+    <p>
+      Anything you actually have to read now happens on a card. The rocket is held still, the world
+      dims, one short line sits on screen, and the button to continue does not appear for about a
+      second, so a reflexive tap cannot skip a line you never saw. Everything else is a task, with
+      control handed back and at most one short line kept up out of the way.
+    </p>
+    <p>
+      The tutorial is now seventeen steps that alternate between those two states, and every lesson
+      gets a room built for it that can only be used one way: a tall shaft to climb, a sealed box to
+      crash in, two long low rooms with a lit marker at the far end, an open yard with a pad. The
+      cards move the rocket between rooms, which means a teleport only ever happens while you are
+      reading, and control always comes back exactly where the next lesson needs it.
+    </p>
+    <p>
+      A few other things fell out of watching people, and all of them are obvious in hindsight:
+    </p>
+    <ul>
+      <li>
+        <strong>You cannot die until the game has taught you death.</strong> The first presses, the
+        free flying and the first climb are all invulnerable, so a beginner cannot fail out of the
+        opening minute. Then the game asks you to crash into a wall on purpose, and from that point
+        crashes are real.
+      </li>
+      <li>
+        <strong>There is a stretch with no goal at all.</strong> Twelve seconds of just flying, no
+        pad, no timer, no instruction. People need to mess about with a new toy before they will
+        accept a task with it. The pad is hidden outright during this, because a pad sitting there
+        that you are not meant to use is just confusing.
+      </li>
+      <li>
+        <strong>The game coaches while you fly, and the advice stays up.</strong> Everyone pins both
+        engines and rockets skyward, so after a few seconds of that the line changes to say small
+        taps beat holding the screen down. The first version of this cleared the advice as soon as
+        you stopped holding, which meant it vanished at the exact moment you had reacted to it. In
+        other words it disappeared while you were reading it.
+      </li>
+      <li>
+        <strong>Nothing ever starts you hovering.</strong> Every room hands control back with the
+        rocket sitting on a lit stand, legs down. Taking off is a choice you make, not a situation
+        you inherit.
+      </li>
+      <li>
+        <strong>A bad landing gets coached, not just reset.</strong> Muff the first touchdown and a
+        card interrupts to say come down straight and slowly, then puts you back in the same task.
+      </li>
+    </ul>
+    <p>
+      There is one more that I like more than all of them. The very first instruction asks you to
+      fire the left engine, and deliberately highlights nothing, because highlighting a side would
+      be telling you the answer to the question being asked. Whichever half of the screen you reach
+      for becomes your control mapping for the whole game. If you instinctively pressed the right
+      side for the left engine, then that is how the game works for you from then on. The tutorial
+      is not just teaching the controls, it is asking which controls you meant.
+    </p>
+
+    <h2>Sealed is not the same as looking sealed</h2>
+    <p>
+      One more, because it is the same lesson wearing a different hat. Somebody told me they could
+      escape one of the sealed practice rooms. I checked, and they could not: I have an automated
+      test that flies full thrust at the ceiling and then at each wall for eight seconds apiece, and
+      it never gets out.
+    </p>
+    <p>
+      They were still right, and I was still wrong. The ceiling was above the top of the screen, so
+      the room read as open sky and the only way to discover the roof was to hit it. The fix was to
+      drop the roof until it is visible from the moment you get control.
+    </p>
+    <p>
+      When a player tells you something about your game, what they are reporting is what it was like
+      to be them. Checking the code tells you whether they described the cause correctly. It tells
+      you nothing about whether the experience they had was real.
+    </p>
+
+    <h2>The whole lesson in one line</h2>
+    <p>
+      What I find easy, because I built it, tells me nothing about what anybody else will find easy.
+      The only way I have found to close that gap is to sit next to somebody who has never seen the
+      game, hand them the phone, and say nothing at all while they play.
+    </p>
+    <p>
+      Saying nothing is the hard part. Every instinct is to lean over and explain. But the moment
+      you explain, you have patched the player instead of the game, and the next thousand people who
+      download it will not have you sitting next to them.
+    </p>
+
+    <hr class="rule" style="margin:44px 0 30px">
+    <p style="color:var(--muted)">
+      TwinThrust is free on Android. 40 hand-built levels across three worlds, two thumbs, and a
+      fourth chapter in the making.
+    </p>
+    <p class="badges" style="justify-content:flex-start">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+      </a>
+    </p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap center">
+    <p><a href="/">Home</a> &middot; <a href="../">Devlog</a> &middot; <a href="../../presskit/">Press kit</a> &middot; <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
+    <p>© MawdleGames. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
+
+</body>
+</html>
