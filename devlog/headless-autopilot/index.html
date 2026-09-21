@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>I fly my game headless to find invisible walls — TwinThrust devlog</title>
+<title>I fly my game headless to find invisible walls | TwinThrust devlog</title>
 <meta name="description" content="A PD autopilot flies every TwinThrust level headless before a human does. It found a 4x boost that had been producing flames and no speed for three weeks.">
 <link rel="icon" href="../../media/icon_512.png">
 <meta property="og:type" content="article">
@@ -34,7 +34,7 @@
 
     <h2>The problem with looking at a level</h2>
     <p>
-      Every level in TwinThrust is built in code — boxes, bars, hazards, pads, placed by a builder
+      Every level in TwinThrust is built in code, boxes, bars, hazards, pads, placed by a builder
       function. The obvious way to check one is to instantiate the level content on its own and dump
       what it produced. I did that for months, and it is close to useless, for a reason that took me
       an embarrassingly long time to see.
@@ -43,7 +43,7 @@
       The level content is not the level. The shared floor, the ceiling, the start pad and the end
       pad all live in the main game scene, not in the per-level builder. So a standalone dump shows
       you everything <em>except</em> the four things most likely to be in your way. I "fixed" the
-      wrong ceiling more than once that way — reasoning confidently about geometry I could see,
+      wrong ceiling more than once that way, reasoning confidently about geometry I could see,
       while the thing actually blocking the craft was in a scene I had not loaded.
     </p>
     <p>
@@ -54,7 +54,7 @@
     <p>
       Each test is a <code>SceneTree</code> script run headless against the real
       <code>game.tscn</code>. It sets the chapter and level the way the menu would, waits for the
-      scene to come up, and then drives the craft — either by synthesising the same key input a
+      scene to come up, and then drives the craft, either by synthesising the same key input a
       player would produce, or by steering directly with a PD controller toward a list of waypoints.
     </p>
     <p>
@@ -66,7 +66,7 @@
     for body in craft.get_colliding_bodies():
         print("  hit: ", body.get_path(), " groups=", body.get_groups()))</code></pre>
     <p>
-      An empty <code>reason</code> means a plain solid-body collision — you flew into something. A
+      An empty <code>reason</code> means a plain solid-body collision, you flew into something. A
       non-empty one means a hazard guard deliberately killed you. That one distinction turns "the
       rocket blew up somewhere" into "the rocket hit this specific node at this specific position",
       which is the whole ballgame.
@@ -97,17 +97,17 @@
       The finale of Chapter 2 is an escape: a dragon wakes up, chases you up a shaft, and the people
       on the radio give your craft a 4× boost to outrun him. It had never felt right. The flames got
       big, the audio got loud, and the rocket climbed at exactly the speed it had been climbing at
-      before — about 395 px/s, pinned there like a governor was fitted.
+      before, about 395 px/s, pinned there like a governor was fitted.
     </p>
     <p>
       I had assumed, for about three weeks, that this was a tuning problem.
     </p>
     <p>
       It was one line, in the wrong function. The level's orchestration ran from
-      <code>_process</code> — the render frame — and in the boost state it did a read-modify-write of
+      <code>_process</code>, the render frame, and in the boost state it did a read-modify-write of
       the craft's <code>linear_velocity</code> every frame to bleed off lateral drift:
     </p>
-    <pre><code># in _process — the render frame
+    <pre><code># in _process, the render frame
 var v = craft.linear_velocity
 v.x = lerp(v.x, 0.0, drift_bleed)   # keep y, kill sideways drift
 craft.linear_velocity = v           # ← this is the bug</code></pre>
@@ -118,7 +118,7 @@ craft.linear_velocity = v           # ← this is the bug</code></pre>
       was trying to change.
     </p>
     <p>
-      I found it by bisection in the end — commenting the write out and re-flying. Boost terminal
+      I found it by bisection in the end, commenting the write out and re-flying. Boost terminal
       velocity went from 449 px/s to about 2,500.
     </p>
     <blockquote>
@@ -130,7 +130,7 @@ craft.linear_velocity = v           # ← this is the bug</code></pre>
     <p>
       The knock-ons were the interesting part, because they show how one bug hides behind another.
       The boost was on a 15-second clock, and a boost that does not accelerate does not cover the
-      distance it was budgeted for — so the clock ran out roughly 13,000 px below the top of the
+      distance it was budgeted for, so the clock ran out roughly 13,000 px below the top of the
       shaft. Everything scheduled for the open sky afterwards therefore happened <em>inside</em> the
       shaft: the dialogue, the run-out, and the landing pad, which spawned 250 m dead ahead of a
       climbing rocket. The player's reward for surviving the finale was to smash into the underside
@@ -149,15 +149,15 @@ craft.linear_velocity = v           # ← this is the bug</code></pre>
     </p>
     <p>
       <strong>End things on geometry, not on a clock.</strong> The boost now cuts out 900 px above
-      the top of the shaft — "the boost dies as the shaft does" — with a generous timer left in only
+      the top of the shaft, "the boost dies as the shaft does", with a generous timer left in only
       as a fallback for someone who dawdles. A clock encodes an assumption about speed. Geometry
       encodes the thing you actually meant.
     </p>
 
     <h2>Was it worth it?</h2>
     <p>
-      The finale now has a test that boots the real scene and flies the entire sequence — burn,
-      collect, awaken, chase, boost, run-out, pad, landing — in two different styles, one committed
+      The finale now has a test that boots the real scene and flies the entire sequence, burn,
+      collect, awaken, chase, boost, run-out, pad, landing, in two different styles, one committed
       and one timid, and asserts that both end with the craft landed and not dead. It runs headless
       in a few seconds.
     </p>
@@ -172,7 +172,7 @@ craft.linear_velocity = v           # ← this is the bug</code></pre>
 
     <hr class="rule" style="margin:44px 0 30px">
     <p style="color:var(--muted)">
-      TwinThrust is free on Android — 40 hand-built levels, two thumbs, no autopilot for you.
+      TwinThrust is free on Android, 40 hand-built levels, two thumbs, no autopilot for you.
     </p>
     <p class="badges" style="justify-content:flex-start">
       <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
@@ -184,7 +184,7 @@ craft.linear_velocity = v           # ← this is the bug</code></pre>
 
 <footer>
   <div class="wrap">
-    <p><a href="/">Home</a> · <a href="../">Devlog</a> · <a href="../../presskit/">Press kit</a> · <a href="mailto:RichMawdsley@gmail.com">RichMawdsley@gmail.com</a></p>
+    <p><a href="/">Home</a> · <a href="../">Devlog</a> · <a href="../../presskit/">Press kit</a> · <a href="mailto:admin@mawdlegames.com">admin@mawdlegames.com</a></p>
     <p>© MawdleGames. Google Play and the Google Play logo are trademarks of Google LLC.</p>
   </div>
 </footer>
