@@ -61,7 +61,7 @@
     <div class="frame">
       <div class="boot" id="boot">
         <h2>TwinThrust demo</h2>
-        <p>Loads about 50&nbsp;MB the first time. Best with sound on.</p>
+        <p>Roughly 25&nbsp;MB on first load, then cached. Best with sound on.</p>
         <button id="start" type="button">Start the demo</button>
       </div>
     </div>
@@ -99,7 +99,7 @@
 </footer>
 
 <script>
-  // Click to start, so a 50 MB download is never something the page just does
+  // Click to start, so a large download is never something the page just does
   // to somebody who wandered in.
   document.getElementById("start").addEventListener("click", function () {
     var frame = document.querySelector(".stage .frame");
