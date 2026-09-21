@@ -99,9 +99,35 @@
 </footer>
 
 <script>
+  // A PLAY, NOT A PAGE VIEW.
+  // The page view above counts everyone who arrived. This counts only the
+  // people who committed to a 25 MB download and actually flew something,
+  // which is the number worth looking at. The two together give the drop-off.
+  //
+  // count.js is async, so it may not have arrived yet when somebody clicks
+  // fast. Retry briefly rather than lose the count - and never let a missing
+  // counter stop the game from starting.
+  function countPlay() {
+    var tries = 0;
+    (function fire() {
+      try {
+        if (window.goatcounter && window.goatcounter.count) {
+          window.goatcounter.count({
+            path: "demo-start",
+            title: "Demo started",
+            event: true,
+          });
+          return;
+        }
+      } catch (e) { return; }
+      if (tries++ < 20) setTimeout(fire, 100);
+    })();
+  }
+
   // Click to start, so a large download is never something the page just does
   // to somebody who wandered in.
   document.getElementById("start").addEventListener("click", function () {
+    countPlay();
     var frame = document.querySelector(".stage .frame");
     var iframe = document.createElement("iframe");
     iframe.src = "game/index.html";
@@ -112,6 +138,12 @@
     if (boot) boot.remove();
   });
 </script>
+
+
+<!-- Play counts. GoatCounter sets no cookies and stores nothing personal, so
+     this needs no consent banner. Dashboard: mawdlegames.goatcounter.com -->
+<script data-goatcounter="https://mawdlegames.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
