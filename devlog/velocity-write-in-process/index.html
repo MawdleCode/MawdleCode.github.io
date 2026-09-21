@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A velocity write in _process cost me three weeks | TwinThrust devlog</title>
+<meta name="description" content="A 4x boost at the end of Chapter 2 fired huge flames and added no speed at all. It was not a tuning problem. A script was writing linear_velocity from the render frame, and that write was landing on top of every physics step.">
+<link rel="icon" href="../../media/icon_512.png">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A velocity write in _process cost me three weeks">
+<meta property="og:description" content="The boost looked like it needed tuning, so I tuned it, and nothing happened. The real bug was which function the code ran in.">
+<meta property="og:image" content="https://mawdlecode.github.io/media/feature.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="../../style.css">
+<style>
+  pre.code {
+    background: var(--bg-sunk); border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 18px; overflow-x: auto; font-size: .88rem; line-height: 1.55;
+    font-family: ui-monospace, Consolas, monospace; color: #cdd6e6;
+  }
+  pre.code b { color: #6fd8ff; font-weight: 600; }
+  pre.code i { color: #7f8aa0; font-style: normal; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="/"><img src="../../media/icon_512.png" alt=""> MawdleGames</a>
+  <a class="link" href="../">Devlog</a>
+  <a class="link" href="/">TwinThrust</a>
+</nav>
+
+<div class="wrap">
+  <article class="article">
+    <p class="kicker" style="margin-top:30px">21 September 2026 · Engineering</p>
+    <h1 style="font-size:clamp(1.8rem,5.2vw,2.6rem); line-height:1.15; margin:.2em 0 .4em">
+      A velocity write in <code>_process</code> cost me three weeks
+    </h1>
+    <p class="lede">
+      The end of Chapter 2 is an escape. A dragon called Vharos comes up the shaft behind you, and
+      partway through the climb you are given a boost to outrun him. The boost fired. The flames were
+      enormous. The rocket went exactly as fast as it had been going before.
+    </p>
+
+    <h2>It looked like a tuning problem, so I tuned it</h2>
+    <p>
+      That is the part worth telling, because it is the part that cost the time. A boost that fires
+      and does not feel like enough is the most ordinary problem in game development. You made the
+      number too small. So you make the number bigger.
+    </p>
+    <p>
+      I took the multiplier to 4x. No change. I took it higher. No change. At that point I should
+      have stopped and asked why an input had stopped mapping to an output at all, because that is
+      not what an under-tuned value does. An under-tuned value gets a bit better when you raise it.
+      This one was inert.
+    </p>
+    <p>
+      Instead I assumed I had wired the boost into the wrong state, and went looking through the
+      state machine. Three weeks, on and off, of looking in the wrong place.
+    </p>
+
+    <h2>The number that actually gave it away</h2>
+    <p>
+      Whatever I did, the climb settled at about 395 px/s.
+    </p>
+    <p>
+      Not roughly. Not drifting around. The same figure, every run. And I recognised it, which is
+      what finally turned it around: 395 px/s was the equilibrium speed of the chase, the pace the
+      pursuit logic holds you at so the dragon stays a threat without ever quite catching you.
+    </p>
+    <p>
+      The boost was not being applied weakly. It was not being applied. Something was putting the
+      craft back at chase speed after every single physics step, and it was doing it so consistently
+      that I had been reading a symptom of total override as a symptom of insufficient force.
+    </p>
+
+    <h2>What was actually happening</h2>
+    <p>
+      The level's orchestration ran from <code>_process</code>. Inside it, the boost state did a
+      read, modify, write on the craft's velocity every rendered frame, a small lateral bleed that
+      was meant to straighten the climb while preserving the vertical component.
+    </p>
+<pre class="code"><i># the level ran this from _process, once per RENDERED frame</i>
+func _process_level_30(delta: float) -&gt; void:
+    ...
+    <i># "just straighten the drift, keep y"</i>
+    craft.<b>linear_velocity</b> = Vector2(
+        lerp(craft.linear_velocity.x, 0.0, delta * 3.0),
+        craft.linear_velocity.y,
+    )</pre>
+    <p>
+      That line reads harmless. It only touches x, and it hands y straight back. But it is a write to
+      the whole vector, and it is happening from the render loop, in between physics ticks.
+    </p>
+    <p>
+      A RigidBody2D accumulates the result of forces during its physics step. If you assign to
+      <code>linear_velocity</code> from outside that step, you are not adding to what the body
+      worked out. You are replacing it with a value you read <em>before</em> it worked it out. The
+      boost applied its force on the tick, the body integrated it, and then a render frame arrived
+      and pasted the pre-boost velocity back over the top.
+    </p>
+    <p>
+      I confirmed it by deleting the line and changing nothing else. Terminal velocity through the
+      boost went from 449 px/s to roughly 2,500 px/s.
+    </p>
+
+    <h2>Why it hid for so long: it was wearing three other bugs</h2>
+    <p>
+      This is the part I think is genuinely worth passing on. I was not tracking one bug. I had three
+      open, and I had them filed separately.
+    </p>
+    <ul>
+      <li>
+        <b>The boost felt weak.</b> The one I was actually chasing.
+      </li>
+      <li>
+        <b>The story beats fired in the wrong place.</b> The escape has a run out into open sky at
+        the top, with dialogue over it. All of it was happening inside the shaft, in the dark, with
+        rock on both sides. The boost had a 15 second clock, and at the speed the craft was really
+        travelling that clock ran out about 13,000 px below the top. The sequence was not mistimed. It
+        was correctly timed for a rocket that was moving six times too slowly.
+      </li>
+      <li>
+        <b>The finale killed you.</b> The landing pad spawns 250 m above the craft at the end of the
+        climb. For a rocket climbing fast, that is ahead of you and you fly up to meet it. For a
+        rocket crawling at chase speed it is an anvil dropped directly overhead, and you hit the
+        underside of it, and you die at the end of the chapter through no fault of your own.
+      </li>
+    </ul>
+    <p>
+      Three tickets, three theories, one line of code. Every hour I spent treating them as unrelated
+      was an hour spent guaranteeing I would not find it, because none of them makes sense on its own
+      and all three are obvious the moment you know the craft is stuck at one speed.
+    </p>
+
+    <h2>The rule I actually took away</h2>
+    <p>
+      Anything that writes a physics body's velocity or position runs on the physics tick. Not
+      sometimes. Not when it is convenient.
+    </p>
+<pre class="code"><i># wrong: runs on the render frame, clobbers force integration</i>
+func _process(delta: float) -&gt; void:
+    craft.linear_velocity = ...
+
+<i># right: runs on the tick, in the same step the forces are integrated</i>
+func <b>_physics_process</b>(delta: float) -&gt; void:
+    craft.linear_velocity = ...</pre>
+    <p>
+      The narrow version of this rule is well known and I would have said I already followed it. The
+      version that would have saved me is broader: <b>it is not about the write, it is about the
+      file.</b> The level was never written as "physics code". It was written as staging: play a
+      line, move a camera, nudge the drift. It grew a velocity write later, and the function it lived
+      in never got revisited, because nothing about <code>_process</code> complains when you do this.
+      No error, no warning, no log line. It just silently wins.
+    </p>
+    <p>
+      Not every level moved. The ones that only trigger dialogue and camera work stayed exactly where
+      they were, because they never touch body state. Only the ones that write to the craft had to
+      move, and knowing which is which is the whole of it.
+    </p>
+
+    <h2>How to spot it in ten minutes instead of three weeks</h2>
+    <p>
+      Log velocity and actual position change on the same tick, and compare them.
+    </p>
+<pre class="code">var moved := craft.global_position - last_pos
+print(craft.linear_velocity * delta, "  vs  ", moved)</pre>
+    <p>
+      If something outside the tick is overwriting velocity, these two disagree: the body moves
+      further than its reported velocity says it should, because the velocity you are printing is the
+      one that got pasted on afterwards, not the one the body actually integrated. Two numbers that
+      should match and do not, and it points straight at the cause.
+    </p>
+    <p>
+      The general tell, before you even reach for a log: <b>a craft that ignores an input at a
+      suspiciously constant speed is not under-powered, it is being overwritten.</b> Weak forces give
+      you weak, variable results. A number that will not move is something else holding it there.
+    </p>
+
+    <h2>The test that stops it coming back</h2>
+    <p>
+      The fix itself was a few lines. The thing I am more pleased with is that this finale is now
+      flown, in full, with no one watching.
+    </p>
+    <p>
+      There is a headless rig that boots the real game scene at the start of the escape and flies the
+      whole sequence with an autopilot: the burn, the dragon waking, the chase, the boost, the run
+      out, the pad, the landing. It asserts that the craft lands and does not crash, and it prints
+      the speed it hit through the boost. If a velocity write ever creeps back in, that number
+      collapses to about 400 and the test fails on the spot.
+    </p>
+    <p>
+      This bug was invisible for three weeks because nothing was watching the one number that
+      mattered. Now something is, on every run.
+    </p>
+
+    <hr class="rule" style="margin:44px 0 30px">
+    <p style="color:var(--muted)">
+      If you would rather just fly it than read about it, the first five levels run in your browser
+      with no install: <a href="/play/"><b>play the demo</b></a>. The full game is free on Android,
+      40 hand-built levels across three worlds, and a fourth chapter is in the making.
+    </p>
+    <p class="badges" style="justify-content:flex-start">
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.mawdlegames.twinthrust">
+        <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png">
+      </a>
+    </p>
+  </article>
+</div>
+
+<footer>
+  <div class="wrap center">
+    <p><a href="/">Home</a> &middot; <a href="../">Devlog</a> &middot; <a href="../../presskit/">Press kit</a> &middot; <a href="mailto:mawdlegames@gmail.com">mawdlegames@gmail.com</a></p>
+    <p>© MawdleGames. Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
+</footer>
+
+
+<!-- Play counts. GoatCounter sets no cookies and stores nothing personal, so
+     this needs no consent banner. Dashboard: mawdlegames.goatcounter.com -->
+<script data-goatcounter="https://mawdlegames.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
